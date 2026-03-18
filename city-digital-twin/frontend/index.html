@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="City Digital Twin - Disaster Simulation Platform for urban infrastructure analysis using AI and real city data">
+    <title>City Digital Twin — Disaster Simulation Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="/src/styles/main.css">
+    <link rel="stylesheet" href="/src/styles/panels.css">
+</head>
+<body>
+    <!-- Left Sidebar -->
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect width="32" height="32" rx="8" fill="url(#logoGrad)"/>
+                        <path d="M8 20L16 8L24 20H8Z" fill="white" opacity="0.9"/>
+                        <path d="M12 24H20V20H12V24Z" fill="white" opacity="0.7"/>
+                        <defs><linearGradient id="logoGrad" x1="0" y1="0" x2="32" y2="32">
+                            <stop stop-color="#3B82F6"/><stop offset="1" stop-color="#1D4ED8"/>
+                        </linearGradient></defs>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>City Digital Twin</h1>
+                    <p>Disaster Simulation Platform</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-content">
+            <!-- City Selector -->
+            <div class="control-group">
+                <label class="control-label">Select City</label>
+                <select id="citySelect" class="select-input">
+                    <option value="mumbai">Mumbai</option>
+                    <option value="chennai">Chennai</option>
+                    <option value="kolkata">Kolkata</option>
+                    <option value="delhi">Delhi</option>
+                    <option value="jakarta">Jakarta</option>
+                </select>
+            </div>
+
+            <!-- Disaster Type Tabs -->
+            <div class="tab-group">
+                <button id="tabFlood" class="tab-btn active" onclick="switchTab('flood')">
+                    <span class="tab-icon">🌊</span> FLOOD
+                </button>
+                <button id="tabEarthquake" class="tab-btn" onclick="switchTab('earthquake')">
+                    <span class="tab-icon">🔥</span> EARTHQUAKE
+                </button>
+            </div>
+
+            <!-- Flood Controls -->
+            <div id="floodControls" class="controls-panel">
+                <div class="toggle-group">
+                    <label class="toggle-label">Simulation Mode</label>
+                    <div class="toggle-switch-container">
+                        <button id="modeRainfall" class="mode-btn active" onclick="setFloodMode('rainfall')">Rainfall</button>
+                        <button id="modeWaterLevel" class="mode-btn" onclick="setFloodMode('waterLevel')">Water Level</button>
+                    </div>
+                </div>
+
+                <div id="rainfallControls">
+                    <div class="slider-group">
+                        <label class="slider-label">
+                            Rainfall Intensity
+                            <span id="rainfallValue" class="slider-value">150mm</span>
+                        </label>
+                        <input type="range" id="rainfallSlider" class="styled-slider" min="50" max="300" value="150" step="10"
+                               oninput="updateSliderValue('rainfall', this.value)">
+                        <div class="slider-range"><span>50mm</span><span>300mm</span></div>
+                    </div>
+
+                    <div class="slider-group">
+                        <label class="slider-label">
+                            Storm Duration
+                            <span id="durationValue" class="slider-value">6h</span>
+                        </label>
+                        <input type="range" id="durationSlider" class="styled-slider" min="1" max="24" value="6"
+                               oninput="updateSliderValue('duration', this.value)">
+                        <div class="slider-range"><span>1h</span><span>24h</span></div>
+                    </div>
+
+                    <div class="slider-group">
+                        <label class="slider-label">
+                            Soil Curve Number
+                            <span id="curveValue" class="slider-value">80</span>
+                            <span class="tooltip-icon" title="Higher values indicate less permeable surfaces (more urban). Lower values indicate more natural soil infiltration.">ⓘ</span>
+                        </label>
+                        <input type="range" id="curveSlider" class="styled-slider" min="60" max="95" value="80"
+                               oninput="updateSliderValue('curve', this.value)">
+                        <div class="slider-range"><span>60</span><span>95</span></div>
+                    </div>
+                </div>
+
+                <div id="waterLevelControls" style="display:none">
+                    <div class="slider-group">
+                        <label class="slider-label">
+                            Water Level
+                            <span id="waterLevelValue" class="slider-value">5.0m</span>
+                        </label>
+                        <input type="range" id="waterLevelSlider" class="styled-slider" min="1" max="20" value="5" step="0.5"
+                               oninput="updateSliderValue('waterLevel', this.value)">
+                        <div class="slider-range"><span>1m</span><span>20m</span></div>
+                    </div>
+                </div>
+
+                <button id="simulateFloodBtn" class="btn-primary btn-blue" onclick="runFloodSimulation()">
+                    <span class="btn-icon">▶</span> Simulate Flood
+                </button>
+                <button id="animateBtn" class="btn-secondary" onclick="animateWaterRise()">
+                    🌊 Animate Water Rise
+                </button>
+            </div>
+
+            <!-- Earthquake Controls -->
+            <div id="earthquakeControls" class="controls-panel" style="display:none">
+                <div class="slider-group">
+                    <label class="slider-label">
+                        Magnitude
+                        <span id="magnitudeValue" class="slider-value magnitude-medium">6.5</span>
+                    </label>
+                    <input type="range" id="magnitudeSlider" class="styled-slider slider-earthquake" min="4.0" max="9.0" value="6.5" step="0.1"
+                           oninput="updateSliderValue('magnitude', this.value)">
+                    <div class="slider-range"><span>4.0</span><span>9.0</span></div>
+                </div>
+
+                <div class="slider-group">
+                    <label class="slider-label">
+                        Depth
+                        <span id="depthValue" class="slider-value">15km</span>
+                    </label>
+                    <input type="range" id="depthSlider" class="styled-slider" min="5" max="50" value="15"
+                           oninput="updateSliderValue('depth', this.value)">
+                    <div class="slider-range"><span>5km</span><span>50km</span></div>
+                </div>
+
+                <div class="info-box">
+                    <span class="info-icon">📍</span>
+                    <span>Click anywhere on the map to set the epicenter</span>
+                </div>
+
+                <button id="simulateEqBtn" class="btn-primary btn-orange" onclick="runEarthquakeSimulation()">
+                    <span class="btn-icon">▶</span> Simulate Earthquake
+                </button>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultsSection" class="results-section" style="display:none">
+                <h3 class="section-title">Simulation Results</h3>
+                <div class="stats-grid">
+                    <div class="stat-card stat-blue">
+                        <div class="stat-icon">📐</div>
+                        <div class="stat-value" id="statArea">0</div>
+                        <div class="stat-label">Affected Area (km²)</div>
+                    </div>
+                    <div class="stat-card stat-red">
+                        <div class="stat-icon">🏢</div>
+                        <div class="stat-value" id="statBuildings">0</div>
+                        <div class="stat-label">Buildings at Risk</div>
+                    </div>
+                    <div class="stat-card stat-yellow">
+                        <div class="stat-icon">🚧</div>
+                        <div class="stat-value" id="statRoads">0</div>
+                        <div class="stat-label">Roads Blocked %</div>
+                    </div>
+                    <div class="stat-card stat-red-pulse">
+                        <div class="stat-icon">🏥</div>
+                        <div class="stat-value" id="statHospitals">0</div>
+                        <div class="stat-label">Hospitals Isolated</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="damageChart" width="280" height="180"></canvas>
+                </div>
+
+                <button class="btn-primary btn-green" onclick="optimizeResources()">
+                    🚑 Optimize Emergency Resources
+                </button>
+                <button class="btn-outline" onclick="toggleCompare()">
+                    📊 Compare Scenarios
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Map Area -->
+    <main id="mapContainer" class="map-container">
+        <div id="map" class="map"></div>
+
+        <!-- Layer Toggle Panel -->
+        <div id="layerPanel" class="layer-panel">
+            <h4 class="layer-title">Map Layers</h4>
+            <label class="layer-toggle">
+                <input type="checkbox" id="toggleFloodZones" checked onchange="toggleLayer('flood')">
+                <span class="layer-swatch" style="background:#3B82F6"></span>
+                Flood Zones
+            </label>
+            <label class="layer-toggle">
+                <input type="checkbox" id="toggleBuildingDamage" checked onchange="toggleLayer('buildings')">
+                <span class="layer-swatch" style="background:#EF4444"></span>
+                Building Damage
+            </label>
+            <label class="layer-toggle">
+                <input type="checkbox" id="toggleRoadNetwork" checked onchange="toggleLayer('roads')">
+                <span class="layer-swatch" style="background:#FFFFFF"></span>
+                Road Network
+            </label>
+            <label class="layer-toggle">
+                <input type="checkbox" id="toggleHeatmap" onchange="toggleLayer('heatmap')">
+                <span class="layer-swatch" style="background:linear-gradient(90deg,#22C55E,#EAB308,#EF4444)"></span>
+                Risk Heatmap
+            </label>
+            <label class="layer-toggle">
+                <input type="checkbox" id="toggleResources" checked onchange="toggleLayer('resources')">
+                <span class="layer-swatch" style="background:#22C55E"></span>
+                Resource Placement
+            </label>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay" style="display:none">
+            <div class="loading-spinner"></div>
+            <p id="loadingMessage" class="loading-message">Loading city data...</p>
+        </div>
+    </main>
+
+    <!-- Compare Panel (hidden by default) -->
+    <div id="comparePanel" class="compare-panel" style="display:none">
+        <div class="compare-header">
+            <h3>Scenario Comparison</h3>
+            <button class="btn-close" onclick="toggleCompare()">✕</button>
+        </div>
+        <div class="compare-content" id="compareContent">
+            <p class="compare-placeholder">Run two simulations and compare results here.</p>
+        </div>
+    </div>
+
+    <script src="/src/api/client.js"></script>
+    <script src="/src/map/MapCore.js"></script>
+    <script src="/src/map/FloodLayer.js"></script>
+    <script src="/src/map/BuildingLayer.js"></script>
+    <script src="/src/map/RoadLayer.js"></script>
+    <script src="/src/map/HeatmapLayer.js"></script>
+    <script src="/src/map/ResourceLayer.js"></script>
+    <script src="/src/panels/ScenarioPanel.js"></script>
+    <script src="/src/panels/StatsPanel.js"></script>
+    <script src="/src/panels/RiskCard.js"></script>
+    <script src="/src/panels/ComparePanel.js"></script>
+    <script src="/src/panels/TimelinePanel.js"></script>
+    <script src="/src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.27018595325508,
+          13.090128468212612
+        ]
+      },
+      "properties": {
+        "type": "hospital",
+        "name": "Hospital 1",
+        "capacity": 251
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.27936729670279,
+          13.092792530571634
+        ]
+      },
+      "properties": {
+        "type": "hospital",
+        "name": "Hospital 2",
+        "capacity": 486
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.26197369739292,
+          13.085529353342892
+        ]
+      },
+      "properties": {
+        "type": "hospital",
+        "name": "Hospital 3",
+        "capacity": 105
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.28585711110105,
+          13.083293587726375
+        ]
+      },
+      "properties": {
+        "type": "hospital",
+        "name": "Hospital 4",
+        "capacity": 109
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.28134033493329,
+          13.09433318842357
+        ]
+      },
+      "properties": {
+        "type": "hospital",
+        "name": "Hospital 5",
+        "capacity": 180
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.26366179549656,
+          13.082424714725434
+        ]
+      },
+      "properties": {
+        "type": "fire_station",
+        "name": "Fire Station 1",
+        "capacity": 70
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.29113649141915,
+          13.078192089587317
+        ]
+      },
+      "properties": {
+        "type": "fire_station",
+        "name": "Fire Station 2",
+        "capacity": 300
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.27904249625992,
+          13.088194706467169
+        ]
+      },
+      "properties": {
+        "type": "fire_station",
+        "name": "Fire Station 3",
+        "capacity": 288
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.27304333242935,
+          13.070268240844673
+        ]
+      },
+      "properties": {
+        "type": "shelter",
+        "name": "Emergency Shelter 1",
+        "capacity": 67
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.26130173263451,
+          13.091694921356368
+        ]
+      },
+      "properties": {
+        "type": "shelter",
+        "name": "Emergency Shelter 2",
+        "capacity": 219
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.27694511828689,
+          13.070694712399408
+        ]
+      },
+      "properties": {
+        "type": "shelter",
+        "name": "Emergency Shelter 3",
+        "capacity": 228
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.27581479175252,
+          13.063006436061494
+        ]
+      },
+      "properties": {
+        "type": "shelter",
+        "name": "Emergency Shelter 4",
+        "capacity": 302
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.25829020518789,
+          13.067350132902956
+        ]
+      },
+      "properties": {
+        "type": "shelter",
+        "name": "Emergency Shelter 5",
+        "capacity": 381
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.28405898992713,
+          13.06494718396295
+        ]
+      },
+      "properties": {
+        "type": "shelter",
+        "name": "Emergency Shelter 6",
+        "capacity": 419
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.28788911334844,
+          13.061423090306052
+        ]
+      },
+      "properties": {
+        "type": "shelter",
+        "name": "Emergency Shelter 7",
+        "capacity": 127
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.27957713935906,
+          13.065405084842212
+        ]
+      },
+      "properties": {
+        "type": "shelter",
+        "name": "Emergency Shelter 8",
+        "capacity": 164
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.25754569669364,
+          13.074597511765514
+        ]
+      },
+      "properties": {
+        "type": "shelter",
+        "name": "Emergency Shelter 9",
+        "capacity": 201
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.28366406023629,
+          13.088742797291312
+        ]
+      },
+      "properties": {
+        "type": "shelter",
+        "name": "Emergency Shelter 10",
+        "capacity": 472
+      }
+    }
+  ]
+}

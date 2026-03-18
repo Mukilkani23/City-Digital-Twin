@@ -1,0 +1,25 @@
+services:
+  city-digital-twin:
+    build: .
+    container_name: city-digital-twin
+    ports:
+      - "8001:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - DEBUG=false
+      - LOG_LEVEL=INFO
+      - DATA_DIR=data
+      - CACHE_DIR=data/processed
+      - SAMPLE_DIR=data/sample
+      - MODEL_DIR=backend/ml/models
+    volumes:
+      - ./data:/app/data
+      - ./backend/ml/models:/app/backend/ml/models
+    command: python backend/main.py
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
